@@ -1,41 +1,38 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormContact, Label, InputContact, ButtonContact } from './Form.styled';
 
-export class Form extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
-
-  handelInputChange = e => {
+export function Form({onSubmit}) {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+  
+  const handelInputChange = e => {
     const name = e.currentTarget.name;
     const value = e.currentTarget.value;
-    this.setState({
-      [name]: value,
-    });
+
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'number':
+        setNumber(value);
+        break;
+      default:
+        throw new Error();
+    }
   };
   
-  onSubmitForm = e => {
+  const onSubmitForm = e => {
     e.preventDefault();
-    const onSubmit = this.props.onSubmit;
-    const state = this.state;
-    const reset = this.reset;
-    onSubmit(state);
+    onSubmit(name, number);
     reset();
   };
 
-  reset = () => {
-    this.setState({
-      name: '',
-      number: '',
-    });
+  const reset = () => {
+    setName('');
+    setNumber('');
   };
 
-  render() {
-    const onSubmitForm = this.onSubmitForm;
-    const handelInputChange = this.handelInputChange;
-    const { name, number } = this.state;
     return (
       <FormContact onSubmit={onSubmitForm}>
         <Label>
@@ -67,7 +64,6 @@ export class Form extends Component {
       </FormContact>
     );
   }
-}
 
 Form.propTypes = {
   state: PropTypes.objectOf(
