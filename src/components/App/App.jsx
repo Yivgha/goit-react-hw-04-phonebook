@@ -15,7 +15,7 @@ export function App() {
   useEffect(() => {
     if (isFirstRender.current) {
       const contactLocalStorage = localStorage.getItem('contacts');
-      if (contactLocalStorage) {
+    if (contactLocalStorage) {
         setContacts(JSON.parse(contactLocalStorage));
       }
       isFirstRender.current = false;
